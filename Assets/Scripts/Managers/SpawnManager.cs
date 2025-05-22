@@ -21,7 +21,7 @@ public class SpawnManager : MonoBehaviour
     public int spawnCount = 0;
     
     //Spawn time things
-    private readonly float _spawnTimer = 1.0f;
+    private readonly float _spawnTimer = 0.5f;
     private readonly float _spawnDelay = 3.0f;
 
     public void Start()
@@ -41,10 +41,9 @@ public class SpawnManager : MonoBehaviour
     {
         int zoneNumber = UnityEngine.Random.Range(0, spawnObjects.Length);
         
-        float randomX = UnityEngine.Random.Range(-10, 10);
-        float randomY = UnityEngine.Random.Range(-10, 10);
+        float randomX = UnityEngine.Random.Range(0, spawnObjects[zoneNumber].gameObject.transform.localScale.x);
 
-        Vector3 spawnPos = new Vector3(randomX, randomY, 1);
+        Vector3 spawnPos = new Vector3(randomX, 1, 1) + spawnObjects[zoneNumber].transform.position;
 
         Instantiate(spawnPrefab, spawnPos, Quaternion.identity, this.transform);
     }
