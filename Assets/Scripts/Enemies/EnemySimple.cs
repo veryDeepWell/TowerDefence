@@ -5,7 +5,7 @@ using UnityEngine.SocialPlatforms.Impl;
 public class Enemy : MonoBehaviour, IDamageble
 {
     [SerializeField] private int health = 1;
-    [SerializeField] private float speed = 0.5f;
+    [SerializeField] private float speed = 1.5f;
 
     public int Health 
     {  
@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour, IDamageble
     {
         SpawnManager spawnManager = GetComponentInParent<SpawnManager>();
         spawnManager.spawnCount--;
+        spawnManager.killCount++;
         spawnManager.AddScore(1);
     }
 

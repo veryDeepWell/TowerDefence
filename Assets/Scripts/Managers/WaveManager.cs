@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    //Debug
+    [SerializeField] private const bool DEBUG = false;
+    
     private int waveNumber = 1;
     private int waveDifficulty = 10;
     
@@ -9,7 +12,17 @@ public class WaveManager : MonoBehaviour
     {
         int enemyCount = waveNumber * waveDifficulty;
 
+        if (DEBUG)
+        {
+            Debug.Log("Starting wave with number: " + waveNumber + " and difficulty : "+ waveDifficulty);
+        }
         return enemyCount;
+    }
+
+    public void ChangeWave(int waveChanger)
+    {
+        waveNumber = waveDifficulty + waveChanger;
+        waveNumber = waveNumber + 1;
     }
 
     public void IncreaseSimultaneousEnemyLimit()

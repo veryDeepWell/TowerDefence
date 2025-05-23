@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = System.Random;
-
+// .!.
 public class SpawnManager : MonoBehaviour
 {
     //Debug
@@ -12,28 +12,34 @@ public class SpawnManager : MonoBehaviour
     //Admin
     private Administrator administrator;
     
+    //Enumerators
+    private IEnumerator _spawnerEnumerator;
+    
     //Objects
     [SerializeField] private GameObject spawnPrefab;
     [SerializeField] private GameObject[] spawnObjects;
     
-    //Gizmo
+    //Gizmo shit
     private readonly int width;
     private readonly int height;
 
     //Spawn limiters
-    public int spawnTargetLimit = 20;
-    public int spawnCount = 0;
-    public int spawnSceneLimit = 10;
+    public int spawnTargetLimit = 20;   // Spawn total enemies in this wave
+    public int spawnCount = 0;          // Spawned enemies right now
+    public int spawnSceneLimit = 10;    // Can be spawned in this wave simultaneously
     
     //Kill count for wave stop
-    private int killCount = 0;
+    public int killCount = 0;
     
+
     //Spawn time things
     private const float _spawnTimer = 1.0f;
     private const float _spawnDelay = 3.0f;
 
     private void Awake()
     {
+        _spawnerEnumerator = SpawnerWithTimer();
+        
         administrator = GetComponentInParent<Administrator>();
     }
     
@@ -43,18 +49,39 @@ public class SpawnManager : MonoBehaviour
             
         if (DEBUG) {Debug.Log("SpawnManager: Start. Enemy amount: " + spawnTargetLimit);}
         
-        StartCoroutine(SpawnerWithTimer());
+        StartCoroutine(_spawnerEnumerator);
     }
-
-    private void OnDrawGizmos()
+    
+    IEnumerator SpawnerWithTimer()
     {
-        if (!DEBUG) return;
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(this.transform.position, new Vector3(width, height, 0));
-    }
+        yield return new WaitForSeconds(_spawnDelay);
 
-    // ReSharper disable Unity.PerformanceAnalysis
+        while (true)
+        {
+            if (killCount >= spawnTargetLimit)
+            {
+                while (spawnCount != 0)
+                {
+                    yield return new WaitForSeconds(_spawnTimer);
+                }
+                
+                Debug.Log("Wave restarting began");
+                ChangeWave(1);
+                yield break;
+            }
+
+            if (spawnTargetLimit >= spawnSceneLimit)
+            {
+                yield return new WaitForSeconds(_spawnTimer);
+            }
+            
+            spawnCount++;
+            SpawnEnemy();
+            
+            yield return new WaitForSeconds(_spawnTimer);
+        }
+    }
+    
     private void SpawnEnemy()
     {
         //Random spawn zone
@@ -80,25 +107,26 @@ public class SpawnManager : MonoBehaviour
             Debug.Log("Spawned " + spawnPrefab.name + " at location " + spawnPos);
         }
     }
-    
-    IEnumerator SpawnerWithTimer()
-    {
-        yield return new WaitForSeconds(_spawnDelay);
-        
-        while (true)
-        {
-            if (spawnCount < spawnSceneLimit)
-            {
-                SpawnEnemy();
-                spawnCount = spawnCount + 1;
-            }
 
-            yield return new WaitForSeconds(_spawnTimer);
-        }
+    private void ChangeWave(int waveChanger)
+    {
+        administrator.ChangeWave(waveChanger);
+        spawnTargetLimit = administrator.GetEnemyAmount();
+        killCount = 0;
+        
+        StartCoroutine(_spawnerEnumerator);
     }
 
     public void AddScore(int scoreToAdd)
     {
         administrator.AddScore(scoreToAdd);
+    }
+    
+    private void OnDrawGizmos()
+    {
+        if (!DEBUG) return;
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(this.transform.position, new Vector3(width, height, 0));
     }
 }

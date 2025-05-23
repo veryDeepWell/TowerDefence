@@ -22,4 +22,9 @@ public class Administrator : MonoBehaviour
     {
         return WaveManager.EnemyAmountDetermine();
     }
+
+    public void ChangeWave(int waveChanger)
+    {
+        WaveManager.ChangeWave(waveChanger);
+    }
 }
