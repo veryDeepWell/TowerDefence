@@ -68,7 +68,6 @@ public class SpawnManager : MonoBehaviour
                 
                 Debug.Log("SpawnManager: Wave restarting began");
                 ChangeWave(1);
-                yield break;
             }
 
             if (spawnTargetLimit >= spawnSceneLimit)
@@ -111,13 +110,14 @@ public class SpawnManager : MonoBehaviour
 
     private void ChangeWave(int waveChanger)
     {
+        StopCoroutine(_spawnerEnumerator);
         administrator.ChangeWave(waveChanger);
         spawnTargetLimit = administrator.GetEnemyAmount();
         killCount = 0;
         
-        StartCoroutine(SpawnerWithTimer());
+        _spawnerEnumerator = SpawnerWithTimer();
+        StartCoroutine(_spawnerEnumerator);
     }
-    // BUG: 001: Not starting coroutine by IEnumerable var, only by coroutine name
     
     public void AddScore(int scoreToAdd)
     {
