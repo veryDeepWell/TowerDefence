@@ -9,23 +9,40 @@ public class SpawnManager : MonoBehaviour
     //Debug
     [SerializeField] private bool DEBUG = false;
     
+    //Admin
+    private Administrator administrator;
+    
     //Objects
     [SerializeField] private GameObject spawnPrefab;
     [SerializeField] private GameObject[] spawnObjects;
     
-    [SerializeField] private int width;
-    [SerializeField] private int height;
+    //Gizmo
+    private readonly int width;
+    private readonly int height;
 
     //Spawn limiters
-    private readonly int _spawnLimit = 10;
+    public int spawnTargetLimit = 20;
     public int spawnCount = 0;
+    public int spawnSceneLimit = 10;
+    
+    //Kill count for wave stop
+    private int killCount = 0;
     
     //Spawn time things
-    private readonly float _spawnTimer = 0.5f;
-    private readonly float _spawnDelay = 3.0f;
+    private const float _spawnTimer = 1.0f;
+    private const float _spawnDelay = 3.0f;
 
+    private void Awake()
+    {
+        administrator = GetComponentInParent<Administrator>();
+    }
+    
     public void Start()
     {
+        spawnTargetLimit = administrator.GetEnemyAmount();
+            
+        if (DEBUG) {Debug.Log("SpawnManager: Start. Enemy amount: " + spawnTargetLimit);}
+        
         StartCoroutine(SpawnerWithTimer());
     }
 
@@ -37,15 +54,31 @@ public class SpawnManager : MonoBehaviour
         Gizmos.DrawWireCube(this.transform.position, new Vector3(width, height, 0));
     }
 
-    public void SpawnEnemy()
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void SpawnEnemy()
     {
+        //Random spawn zone
         int zoneNumber = UnityEngine.Random.Range(0, spawnObjects.Length);
         
+        //Random point in spawn zone
         float randomX = UnityEngine.Random.Range(0, spawnObjects[zoneNumber].gameObject.transform.localScale.x);
-
-        Vector3 spawnPos = new Vector3(randomX, 1, 1) + spawnObjects[zoneNumber].transform.position;
-
+        float randomY = UnityEngine.Random.Range(0, spawnObjects[zoneNumber].gameObject.transform.localScale.y);
+        
+        //Vector 3 with random coordinates
+        Vector3 spawnPos = new Vector3(
+            randomX - spawnObjects[zoneNumber].gameObject.transform.localScale.x / 2, 
+            randomY - spawnObjects[zoneNumber].gameObject.transform.localScale.y / 2, 
+            1) 
+                           + spawnObjects[zoneNumber].transform.position;
+        
+        //Creating enemy
         Instantiate(spawnPrefab, spawnPos, Quaternion.identity, this.transform);
+
+        //Debug
+        if (DEBUG)
+        {
+            Debug.Log("Spawned " + spawnPrefab.name + " at location " + spawnPos);
+        }
     }
     
     IEnumerator SpawnerWithTimer()
@@ -54,7 +87,7 @@ public class SpawnManager : MonoBehaviour
         
         while (true)
         {
-            if (spawnCount < _spawnLimit)
+            if (spawnCount < spawnSceneLimit)
             {
                 SpawnEnemy();
                 spawnCount = spawnCount + 1;
@@ -66,7 +99,6 @@ public class SpawnManager : MonoBehaviour
 
     public void AddScore(int scoreToAdd)
     {
-        Administrator administrator = GetComponentInParent<Administrator>();
         administrator.AddScore(scoreToAdd);
     }
 }
