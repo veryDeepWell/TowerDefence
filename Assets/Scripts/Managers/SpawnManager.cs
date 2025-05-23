@@ -54,6 +54,7 @@ public class SpawnManager : MonoBehaviour
     
     IEnumerator SpawnerWithTimer()
     {
+        if (DEBUG) {Debug.Log("SpawnManager: Wave began. Timer: " + _spawnTimer);}
         yield return new WaitForSeconds(_spawnDelay);
 
         while (true)
@@ -65,7 +66,7 @@ public class SpawnManager : MonoBehaviour
                     yield return new WaitForSeconds(_spawnTimer);
                 }
                 
-                Debug.Log("Wave restarting began");
+                Debug.Log("SpawnManager: Wave restarting began");
                 ChangeWave(1);
                 yield break;
             }
@@ -104,7 +105,7 @@ public class SpawnManager : MonoBehaviour
         //Debug
         if (DEBUG)
         {
-            Debug.Log("Spawned " + spawnPrefab.name + " at location " + spawnPos);
+            Debug.Log("SpawnManager: Spawned " + spawnPrefab.name + " at location " + spawnPos);
         }
     }
 
@@ -114,9 +115,10 @@ public class SpawnManager : MonoBehaviour
         spawnTargetLimit = administrator.GetEnemyAmount();
         killCount = 0;
         
-        StartCoroutine(_spawnerEnumerator);
+        StartCoroutine(SpawnerWithTimer());
     }
-
+    // BUG: 001: Not starting coroutine by IEnumerable var, only by coroutine name
+    
     public void AddScore(int scoreToAdd)
     {
         administrator.AddScore(scoreToAdd);

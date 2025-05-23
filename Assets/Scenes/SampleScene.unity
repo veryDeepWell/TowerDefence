@@ -2013,6 +2013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70eae2c0abbea743b64640fbeffc4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEBUG: 0
 --- !u!1 &1790601187
 GameObject:
   m_ObjectHideFlags: 0
