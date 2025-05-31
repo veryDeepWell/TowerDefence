@@ -18,10 +18,6 @@ public class SpawnManager : MonoBehaviour
     //Objects
     [SerializeField] private GameObject spawnPrefab;
     [SerializeField] private GameObject[] spawnObjects;
-    
-    //Gizmo shit
-    private readonly int width;
-    private readonly int height;
 
     //Spawn limiters
     public int spawnTargetLimit = 20;   // Spawn total enemies in this wave
@@ -122,13 +118,5 @@ public class SpawnManager : MonoBehaviour
     public void AddScore(int scoreToAdd)
     {
         administrator.AddScore(scoreToAdd);
-    }
-    
-    private void OnDrawGizmos()
-    {
-        if (!DEBUG) return;
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(this.transform.position, new Vector3(width, height, 0));
     }
 }
