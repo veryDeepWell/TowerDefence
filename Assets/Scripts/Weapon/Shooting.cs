@@ -30,7 +30,7 @@ public class Shooting : MonoBehaviour
             direction.Normalize();
 
             Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-            
+  
             GameObject projectile = (GameObject)Instantiate(BulletPrefab, myPos, rotation);
             projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * speed;
         }

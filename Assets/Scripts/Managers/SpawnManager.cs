@@ -42,6 +42,7 @@ public class SpawnManager : MonoBehaviour
     public void Start()
     {
         spawnTargetLimit = administrator.GetEnemyAmount();
+        administrator.SetTarget(spawnTargetLimit);
             
         if (DEBUG) {Debug.Log("SpawnManager: Start. Enemy amount: " + spawnTargetLimit);}
         
@@ -108,6 +109,7 @@ public class SpawnManager : MonoBehaviour
     {
         StopCoroutine(_spawnerEnumerator);
         administrator.ChangeWave(waveChanger);
+        administrator.SetTarget(spawnTargetLimit);
         spawnTargetLimit = administrator.GetEnemyAmount();
         killCount = 0;
         

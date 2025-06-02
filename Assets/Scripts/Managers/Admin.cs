@@ -27,6 +27,11 @@ public class Administrator : MonoBehaviour
         ScoreManager.ScoreInteger(1);
     }
 
+    public void SetTarget(int targetInt)
+    {
+        ScoreManager.TargetInteger(targetInt);
+    }
+
     public int GetEnemyAmount()
     {
         return WaveManager.EnemyAmountDetermine();

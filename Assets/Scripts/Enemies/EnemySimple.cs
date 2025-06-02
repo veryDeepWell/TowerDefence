@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class Enemy : MonoBehaviour, IDamageble, IDealDamage
+public class EnemySimple : MonoBehaviour, IDamageble, IDealDamage, IEnemy
 {
     [SerializeField] private int health = 1;
     [SerializeField] private int damage = 1;
@@ -44,19 +44,16 @@ public class Enemy : MonoBehaviour, IDamageble, IDealDamage
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log("Collision with " + collision.gameObject.tag.ToString());
-
         if (collision.gameObject.CompareTag("Bullet"))
         {
             GetDamage(collision.gameObject.GetComponent<BulletStats>().Damage);
             Destroy(collision.gameObject);
         }
-        else if (collision.gameObject.CompareTag("Player"))
+        
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision is IDamageble)
-            {
-                collision.gameObject.GetComponent<IDamageble>().GetDamage(damage);
-            }
+            collision.gameObject.GetComponent<PlayerHealth>().GetDamage(damage);
+            Suicide();
         }
     }
 

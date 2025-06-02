@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - GrandCanvas
+  - Enemy
   layers:
   - Default
   - TransparentFX

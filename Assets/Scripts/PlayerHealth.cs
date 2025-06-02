@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -13,7 +14,12 @@ public class PlayerHealth : MonoBehaviour, IDamageble
         get => health;
         set => health = value;
     }
-    
+
+    private void Awake()
+    {
+        HealthText.text = Health.ToString();
+    }
+
     public void GetDamage(int DamageToDeal)
     {
         Health = Health - DamageToDeal;
@@ -36,5 +42,14 @@ public class PlayerHealth : MonoBehaviour, IDamageble
         Health = Health + HealthToAdd;
         
         HealthText.text = Health.ToString();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        /*if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<IDamageble>().Suicide();
+            GetDamage(collision.gameObject.GetComponent<IDealDamage>().Damage);
+        }*/
     }
 }
