@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour, IDamageble, IDealDamage
         {
             if (collision is IDamageble)
             {
-                
+                collision.gameObject.GetComponent<IDamageble>().GetDamage(damage);
             }
         }
     }
@@ -63,6 +63,7 @@ public class Enemy : MonoBehaviour, IDamageble, IDealDamage
     private void NotifyOfDeath()
     {
         SpawnManager spawnManager = GetComponentInParent<SpawnManager>();
+        
         spawnManager.spawnCount--;
         spawnManager.killCount++;
         spawnManager.AddScore(1);

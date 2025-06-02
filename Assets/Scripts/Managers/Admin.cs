@@ -5,19 +5,21 @@ public class Administrator : MonoBehaviour
     private SpawnManager SpawnManager;
     private ScoreManager ScoreManager;
     private WaveManager WaveManager;
+    private CanvasManager CanvasManager;
 
     [SerializeField] private GameObject Player;
-    
-    [SerializeField] private GameObject panelMainPanel;
-    [SerializeField] private GameObject panelGameOverPanel;
-    
+
     private void Awake()
     {
         SpawnManager = GetComponentInChildren<SpawnManager>();
         ScoreManager = GetComponentInChildren<ScoreManager>();
         WaveManager = GetComponentInChildren<WaveManager>();
-        
-        panelMainPanel.SetActive(false);
+        CanvasManager = GetComponentInChildren<CanvasManager>();
+    }
+
+    private void Start()
+    {
+        CanvasManager.HidePanel_panelGameOverPanel();
     }
 
     public void AddScore(int ScoreToAdd)
@@ -37,8 +39,8 @@ public class Administrator : MonoBehaviour
 
     public void GameOver()
     {
-        panelGameOverPanel.SetActive(false);
-        panelMainPanel.SetActive(true);
+        CanvasManager.HidePanel_panelMainPanel();
+        CanvasManager.ShowPanel_panelGameOverPanel();
         
         SpawnManager.StopAllCoroutines();
     }
