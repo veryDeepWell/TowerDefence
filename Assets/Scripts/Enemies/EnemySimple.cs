@@ -2,10 +2,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class Enemy : MonoBehaviour, IDamageble
+public class Enemy : MonoBehaviour, IDamageble, IDealDamage
 {
     [SerializeField] private int health = 1;
+    [SerializeField] private int damage = 1;
+    
     [SerializeField] private float speed = 1.5f;
+
+    public int Damage
+    {
+        get => damage;
+        set => damage = value;
+    }
 
     public int Health 
     {  
@@ -13,9 +21,9 @@ public class Enemy : MonoBehaviour, IDamageble
         set => health = value;
     }
 
-    public void GetDamage(int damage)
+    public void GetDamage(int DamageToDeal)
     {
-        Health = Health - damage;
+        Health = Health - DamageToDeal;
 
         if (health <= 0)
         {
@@ -29,6 +37,11 @@ public class Enemy : MonoBehaviour, IDamageble
         NotifyOfDeath();
     }
 
+    public void AddHealth(int HealthToAdd)
+    {
+        Health = Health + HealthToAdd;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log("Collision with " + collision.gameObject.tag.ToString());
@@ -37,6 +50,13 @@ public class Enemy : MonoBehaviour, IDamageble
         {
             GetDamage(collision.gameObject.GetComponent<BulletStats>().Damage);
             Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            if (collision is IDamageble)
+            {
+                
+            }
         }
     }
 

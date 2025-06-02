@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField]
-    public TMP_Text TextComponent;
+    [SerializeField] public TMP_Text TextComponent;
 
     public void ScoreInteger(int scoreAmount)
     {

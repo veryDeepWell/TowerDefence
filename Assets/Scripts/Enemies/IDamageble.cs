@@ -7,4 +7,6 @@ public interface IDamageble
     public void GetDamage(int Damage);
 
     public void Suicide();
+    
+    public void AddHealth(int Health);
 }
