@@ -1,20 +1,21 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WaveManager : MonoBehaviour
 {
     //Debug
-    [SerializeField] private bool DEBUG = false;
+    [SerializeField] private bool debug = false;
     
-    private int waveNumber = 1;
-    private int waveDifficulty = 10;
+    private int _waveNumber = 1;
+    private int _waveDifficulty = 10;
     
     public int EnemyAmountDetermine()
     {
-        int enemyCount = waveNumber * waveDifficulty;
+        int enemyCount = _waveNumber * _waveDifficulty;
 
-        if (DEBUG)
+        if (debug)
         {
-            Debug.Log("Starting wave with number: " + waveNumber + " and difficulty : "+ waveDifficulty);
+            Debug.Log("Starting wave with number: " + _waveNumber + " and difficulty : "+ _waveDifficulty);
         }
         
         return enemyCount;
@@ -22,7 +23,7 @@ public class WaveManager : MonoBehaviour
 
     public void ChangeWave(int waveChanger)
     {
-        waveDifficulty = waveDifficulty + waveChanger;
+        _waveDifficulty = _waveDifficulty + waveChanger;
     }
 
     public void IncreaseSimultaneousEnemyLimit()

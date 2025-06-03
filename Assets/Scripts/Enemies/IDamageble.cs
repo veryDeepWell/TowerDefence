@@ -4,9 +4,9 @@ public interface IDamageble
 {
     int Health { get; set; }
 
-    public void GetDamage(int Damage);
+    public void GetDamage(int damage);
 
     public void Suicide();
     
-    public void AddHealth(int Health);
+    public void AddHealth(int health);
 }

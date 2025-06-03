@@ -1,52 +1,61 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Administrator : MonoBehaviour
 {
-    private SpawnManager SpawnManager;
-    private ScoreManager ScoreManager;
-    private WaveManager WaveManager;
-    private CanvasManager CanvasManager;
+    private SpawnManager _spawnManager;
+    private ScoreManager _scoreManager;
+    private WaveManager _waveManager;
+    private CanvasManager _canvasManager;
+    
+    public StatsManager statsManager;
 
-    [SerializeField] private GameObject Player;
+    [FormerlySerializedAs("Player")] [SerializeField] private GameObject player;
 
     private void Awake()
     {
-        SpawnManager = GetComponentInChildren<SpawnManager>();
-        ScoreManager = GetComponentInChildren<ScoreManager>();
-        WaveManager = GetComponentInChildren<WaveManager>();
-        CanvasManager = GetComponentInChildren<CanvasManager>();
+        _spawnManager = GetComponentInChildren<SpawnManager>();
+        _scoreManager = GetComponentInChildren<ScoreManager>();
+        _waveManager = GetComponentInChildren<WaveManager>();
+        _canvasManager = GetComponentInChildren<CanvasManager>();
+        statsManager = GetComponentInChildren<StatsManager>();
     }
 
     private void Start()
     {
-        CanvasManager.HidePanel_panelGameOverPanel();
+        _canvasManager.HidePanel_panelGameOverPanel();
     }
 
-    public void AddScore(int ScoreToAdd)
+    public void AddScore(int scoreToAdd)
     {
-        ScoreManager.ScoreInteger(1);
+        _scoreManager.ScoreInteger(1);
     }
 
     public void SetTarget(int targetInt)
     {
-        ScoreManager.TargetInteger(targetInt);
+        _scoreManager.TargetInteger(targetInt);
     }
 
     public int GetEnemyAmount()
     {
-        return WaveManager.EnemyAmountDetermine();
+        return _waveManager.EnemyAmountDetermine();
     }
 
     public void ChangeWave(int waveChanger)
     {
-        WaveManager.ChangeWave(waveChanger);
+        _waveManager.ChangeWave(waveChanger);
     }
 
     public void GameOver()
     {
-        CanvasManager.HidePanel_panelMainPanel();
-        CanvasManager.ShowPanel_panelGameOverPanel();
+        _canvasManager.HidePanel_panelMainPanel();
+        _canvasManager.ShowPanel_panelGameOverPanel();
         
-        SpawnManager.StopAllCoroutines();
+        _spawnManager.StopAllCoroutines();
+    }
+
+    public void IAMHERE()
+    {
+        Debug.Log("IAMHERE");
     }
 }

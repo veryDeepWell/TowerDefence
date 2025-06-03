@@ -7,10 +7,10 @@ using Random = System.Random;
 public class SpawnManager : MonoBehaviour
 {
     //Debug
-    [SerializeField] private bool DEBUG = false;
+    [SerializeField] private bool debug = false;
     
     //Admin
-    private Administrator administrator;
+    private Administrator _administrator;
     
     //Enumerators
     private IEnumerator _spawnerEnumerator;
@@ -29,30 +29,30 @@ public class SpawnManager : MonoBehaviour
     
 
     //Spawn time things
-    private const float _spawnTimer = 1.0f;
-    private const float _spawnDelay = 3.0f;
+    private const float SpawnTimer = 1.0f;
+    private const float SpawnDelay = 3.0f;
 
     private void Awake()
     {
         _spawnerEnumerator = SpawnerWithTimer();
         
-        administrator = GetComponentInParent<Administrator>();
+        _administrator = GetComponentInParent<Administrator>();
     }
     
     public void Start()
     {
-        spawnTargetLimit = administrator.GetEnemyAmount();
-        administrator.SetTarget(spawnTargetLimit);
+        spawnTargetLimit = _administrator.GetEnemyAmount();
+        _administrator.SetTarget(spawnTargetLimit);
             
-        if (DEBUG) {Debug.Log("SpawnManager: Start. Enemy amount: " + spawnTargetLimit);}
+        if (debug) {Debug.Log("SpawnManager: Start. Enemy amount: " + spawnTargetLimit);}
         
         StartCoroutine(_spawnerEnumerator);
     }
     
     IEnumerator SpawnerWithTimer()
     {
-        if (DEBUG) {Debug.Log("SpawnManager: Wave began. Timer: " + _spawnTimer);}
-        yield return new WaitForSeconds(_spawnDelay);
+        if (debug) {Debug.Log("SpawnManager: Wave began. Timer: " + SpawnTimer);}
+        yield return new WaitForSeconds(SpawnDelay);
 
         while (true)
         {
@@ -60,7 +60,7 @@ public class SpawnManager : MonoBehaviour
             {
                 while (spawnCount != 0)
                 {
-                    yield return new WaitForSeconds(_spawnTimer);
+                    yield return new WaitForSeconds(SpawnTimer);
                 }
                 
                 Debug.Log("SpawnManager: Wave restarting began");
@@ -69,13 +69,13 @@ public class SpawnManager : MonoBehaviour
 
             if (spawnTargetLimit >= spawnSceneLimit)
             {
-                yield return new WaitForSeconds(_spawnTimer);
+                yield return new WaitForSeconds(SpawnTimer);
             }
             
             spawnCount++;
             SpawnEnemy();
             
-            yield return new WaitForSeconds(_spawnTimer);
+            yield return new WaitForSeconds(SpawnTimer);
         }
     }
     
@@ -99,7 +99,7 @@ public class SpawnManager : MonoBehaviour
         Instantiate(spawnPrefab, spawnPos, Quaternion.identity, this.transform);
 
         //Debug
-        if (DEBUG)
+        if (debug)
         {
             Debug.Log("SpawnManager: Spawned " + spawnPrefab.name + " at location " + spawnPos);
         }
@@ -108,9 +108,9 @@ public class SpawnManager : MonoBehaviour
     private void ChangeWave(int waveChanger)
     {
         StopCoroutine(_spawnerEnumerator);
-        administrator.ChangeWave(waveChanger);
-        administrator.SetTarget(spawnTargetLimit);
-        spawnTargetLimit = administrator.GetEnemyAmount();
+        _administrator.ChangeWave(waveChanger);
+        _administrator.SetTarget(spawnTargetLimit);
+        spawnTargetLimit = _administrator.GetEnemyAmount();
         killCount = 0;
         
         _spawnerEnumerator = SpawnerWithTimer();
@@ -119,6 +119,6 @@ public class SpawnManager : MonoBehaviour
     
     public void AddScore(int scoreToAdd)
     {
-        administrator.AddScore(scoreToAdd);
+        _administrator.AddScore(scoreToAdd);
     }
 }

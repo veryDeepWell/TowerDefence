@@ -21,9 +21,9 @@ public class EnemySimple : MonoBehaviour, IDamageble, IDealDamage, IEnemy
         set => health = value;
     }
 
-    public void GetDamage(int DamageToDeal)
+    public void GetDamage(int damageToDeal)
     {
-        Health = Health - DamageToDeal;
+        Health = Health - damageToDeal;
 
         if (health <= 0)
         {
@@ -37,16 +37,16 @@ public class EnemySimple : MonoBehaviour, IDamageble, IDealDamage, IEnemy
         NotifyOfDeath();
     }
 
-    public void AddHealth(int HealthToAdd)
+    public void AddHealth(int healthToAdd)
     {
-        Health = Health + HealthToAdd;
+        Health = Health + healthToAdd;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            GetDamage(collision.gameObject.GetComponent<BulletStats>().Damage);
+            GetDamage(collision.gameObject.GetComponent<BulletStats>().damage);
             Destroy(collision.gameObject);
         }
         

@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class PlayerHealth : MonoBehaviour, IDamageble
 {
-    [SerializeField] private TMP_Text HealthText;
-    [SerializeField] private Administrator Admin;
+    [SerializeField] private TMP_Text healthText;
+    [SerializeField] private Administrator admin;
     
     [SerializeField] private int health = 10;
 
@@ -17,14 +18,14 @@ public class PlayerHealth : MonoBehaviour, IDamageble
 
     private void Awake()
     {
-        HealthText.text = Health.ToString();
+        healthText.text = Health.ToString();
     }
 
-    public void GetDamage(int DamageToDeal)
+    public void GetDamage(int damageToDeal)
     {
-        Health = Health - DamageToDeal;
+        Health = Health - damageToDeal;
         
-        HealthText.text = Health.ToString();
+        healthText.text = Health.ToString();
 
         if (health <= 0)
         {
@@ -34,14 +35,14 @@ public class PlayerHealth : MonoBehaviour, IDamageble
 
     public void Suicide()
     {
-        Admin.GameOver();
+        admin.GameOver();
     }
 
-    public void AddHealth(int HealthToAdd)
+    public void AddHealth(int healthToAdd)
     {
-        Health = Health + HealthToAdd;
+        Health = Health + healthToAdd;
         
-        HealthText.text = Health.ToString();
+        healthText.text = Health.ToString();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

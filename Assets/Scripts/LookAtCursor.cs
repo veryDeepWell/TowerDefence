@@ -4,9 +4,9 @@ public class LookAtCursor : MonoBehaviour
 {
     private Camera _camera;
 
-    private Vector3 mousePos;
-    private float angleRad;
-    private float angleDeg;
+    private Vector3 _mousePos;
+    private float _angleRad;
+    private float _angleDeg;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,10 +17,10 @@ public class LookAtCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePos = (Vector2)_camera.ScreenToWorldPoint(Input.mousePosition);
-        angleRad = Mathf.Atan2(mousePos.y - transform.position.y , mousePos.x - transform.position.x);
-        angleDeg = (180 / Mathf.PI) * angleRad - 90;
+        _mousePos = (Vector2)_camera.ScreenToWorldPoint(Input.mousePosition);
+        _angleRad = Mathf.Atan2(_mousePos.y - transform.position.y , _mousePos.x - transform.position.x);
+        _angleDeg = (180 / Mathf.PI) * _angleRad - 90;
 
-        transform.rotation = Quaternion.Euler(0f, 0f, angleDeg);
+        transform.rotation = Quaternion.Euler(0f, 0f, _angleDeg);
     }
 }

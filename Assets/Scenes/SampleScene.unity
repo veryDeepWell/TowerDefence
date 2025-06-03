@@ -119,6 +119,56 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &174185436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174185437}
+  - component: {fileID: 174185438}
+  m_Layer: 0
+  m_Name: StatsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &174185437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174185436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 671466246}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &174185438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174185436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60403648bd364de9879d54d4e576883d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 0
+  maxLevel: 100
+  damage: 1
+  health: 10
+  shotDelay: 1
+  shotSpeed: 3
 --- !u!1 &256992561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,7 +1288,7 @@ GameObject:
   - component: {fileID: 671466246}
   - component: {fileID: 671466247}
   m_Layer: 0
-  m_Name: Admin
+  m_Name: Administrator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1258,10 +1308,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1305030213}
+  - {fileID: 174185437}
   - {fileID: 1627283712}
   - {fileID: 1304744909}
   - {fileID: 1412137871}
   - {fileID: 321586801}
+  - {fileID: 2030993131}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &671466247
@@ -1276,7 +1328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06b30214a8712cf4cb576c9a2d125886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  statsManager: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &681912071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,8 +1657,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef8b3f8641104246bca9da362e1f647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 4210806876652605132, guid: 8c02b78f4237f3249ba6c8ab3442b2b3, type: 3}
+  bulletPrefab: {fileID: 4210806876652605132, guid: 8c02b78f4237f3249ba6c8ab3442b2b3, type: 3}
   speed: 5
+  _administrator: {fileID: 0}
 --- !u!1 &739056661
 GameObject:
   m_ObjectHideFlags: 0
@@ -2659,7 +2713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63ee461b82fc454a8932725227f8367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DEBUG: 0
+  debug: 0
   spawnPrefab: {fileID: 5987178003230473797, guid: 057409a468a60944eb32ccf66783f9ef, type: 3}
   spawnObjects:
   - {fileID: 1944178445}
@@ -3336,7 +3390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70eae2c0abbea743b64640fbeffc4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DEBUG: 0
+  debug: 0
 --- !u!1 &1790601187
 GameObject:
   m_ObjectHideFlags: 0
@@ -3965,13 +4019,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030993130}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.74304396, y: 5.497936, z: 0.10237198}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1199992572}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 671466246}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2030993133
 MonoBehaviour:
@@ -3997,8 +4051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 664beb6d76f8c2c43a1c0b5e7e1296dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthText: {fileID: 952004765}
-  Admin: {fileID: 671466247}
+  healthText: {fileID: 952004765}
+  admin: {fileID: 0}
   health: 10
 --- !u!50 &2030993135
 Rigidbody2D:
@@ -4344,4 +4398,3 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 739056664}
-  - {fileID: 2030993131}

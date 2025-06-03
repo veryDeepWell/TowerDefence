@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BulletStats : MonoBehaviour
 {
-    public int Damage = 1;
+    public int damage = 1;
 }
